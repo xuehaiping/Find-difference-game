@@ -15,9 +15,11 @@
 	<script type="text/javascript">
 	$(document).ready(function() {
 		var imageList = ["heart.jpg", "show.jpg", "bear.jpg"];
-		$('#carousel ol').append('<li data-target="#myCarousel" data-slide-to="0" class="active"></li>');
+		$('#myCarousel ol').append('<li data-target="#myCarousel" data-slide-to="0" class="active"></li>');
+		$('#wrapper').append('<div class="item active"><img src="image/'+imageList[0]+'" height="300" width="300"></div>');
 		for(var i=1; i<imageList.length; i++) {
-			$('#carousel ol').append('<li data-target="#myCarousel" data-slide-to="' + i.toString() + '"></li>');
+			$('#myCarousel ol').append('<li data-target="#myCarousel" data-slide-to="' + i.toString() + '"></li>');
+			$('#wrapper').append('<div class="item"><img src="image/'+imageList[i]+'" height="300" width="300"></div>');
 		}
 	});
 	</script>
@@ -26,24 +28,13 @@
 
 	<body>
 		<div class="container">
-			<div id="myCarousel" class="carousel slide" data-ride="carousel" id="carousel">
+			<div id="myCarousel" class="carousel slide" data-ride="carousel">
 			  <!-- Indicators -->
 			  <ol class="carousel-indicators">
 			  </ol>
 
 			  <!-- Wrapper for slides -->
-			  <div class="carousel-inner" id="Wrapper">
-			    <div class="item active">
-			      <img src="image/bear.jpg" alt="bear" height="300" width="300">
-			    </div>
-
-			    <div class="item">
-			      <img src="image/heart.jpg" alt="heart" height="300" width="300">
-			    </div>
-
-			    <div class="item">
-			      <img src="image/show.jpg" alt="show" height="300" width="300">
-			    </div>
+			  <div id="wrapper" class="carousel-inner">
 			  </div>
 
 			  <!-- Left and right controls -->
