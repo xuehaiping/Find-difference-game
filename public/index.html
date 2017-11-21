@@ -12,24 +12,27 @@
 	<!-- Bootstrap JS -->
 	<script src="bootstrap/js/bootstrap.min.js"></script>
 
-	<script>
-	
+	<script type="text/javascript">
+	$(document).ready(function() {
+		var imageList = ["heart.jpg", "show.jpg", "bear.jpg"];
+		$('#carousel ol').append('<li data-target="#myCarousel" data-slide-to="0" class="active"></li>');
+		for(var i=1; i<imageList.length; i++) {
+			$('#carousel ol').append('<li data-target="#myCarousel" data-slide-to="' + i.toString() + '"></li>');
+		}
+	});
 	</script>
 
 </head>
 
 	<body>
 		<div class="container">
-			<div id="myCarousel" class="carousel slide" data-ride="carousel">
+			<div id="myCarousel" class="carousel slide" data-ride="carousel" id="carousel">
 			  <!-- Indicators -->
 			  <ol class="carousel-indicators">
-			    <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-			    <li data-target="#myCarousel" data-slide-to="1"></li>
-			    <li data-target="#myCarousel" data-slide-to="2"></li>
 			  </ol>
 
 			  <!-- Wrapper for slides -->
-			  <div class="carousel-inner">
+			  <div class="carousel-inner" id="Wrapper">
 			    <div class="item active">
 			      <img src="image/bear.jpg" alt="bear" height="300" width="300">
 			    </div>
