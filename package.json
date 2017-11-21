@@ -1,0 +1,19 @@
+{
+  "name": "FindDifferenceGame",
+  "version": "1.0.0",
+  "description": "Csce624 Final Project Team SketchDiff",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.tamu.edu/xuehaiping/CSCE624_Final_project.git"
+  },
+  "author": "Haiping Xue",
+  "license": "ISC",
+  "dependencies": {
+    "express": "*"
+  }
+}
