@@ -1,4 +1,8 @@
-## CSCE624_Final_project
+# CSCE624_Final_project Find Difference Game
+
+## Leyi Hu, Xiaojing Yu, Lingyiqing Zhou and Haiping Xue
+
+## Installation
 
 ### clone the project from this repo
 
