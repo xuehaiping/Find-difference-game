@@ -1,12 +1,22 @@
-# CSCE624_Final_project
+## CSCE624_Final_project
 
-# clone the project from https://github.tamu.edu/xuehaiping/CSCE624_Final_project.git
+### clone the project from this repo
+
+```
 git clone https://github.tamu.edu/xuehaiping/CSCE624_Final_project.git
+```
 
-# install npm following https://nodejs.org/en/
+### install npm following 
+https://nodejs.org/en/
 
-# go to root directory of the repository and run command
+### go to root directory of the repository and run command
+
+```
 npm install
+```
 
-# run server.js 
+### run server.js 
+
+```
 node server.js
+```
