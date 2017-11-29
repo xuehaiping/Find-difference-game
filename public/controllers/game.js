@@ -20,4 +20,8 @@ router.post('/', function(req, res) {
   res.render('game', {image:req.body.image});
 });
 
+router.get("/", (req, res) => {
+	res.render("index")
+});
+
 module.exports = router;

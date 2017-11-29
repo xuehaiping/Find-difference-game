@@ -31,7 +31,7 @@ function init() {
     // get the draw (and preview) canvas width
     width = this.drawCanvas.width;
 		height = this.drawCanvas.height;
-
+    strokeSize = 3;
 
     $('#pensize li').on('click', function(){
       strokeSize = $(this).text();
@@ -75,10 +75,11 @@ function undoButton(canvas, context) {
   // re-add the remaining strokes
   for (var i = 0; i < DrawCanvasData.strokes.length; i++) {
     var points = DrawCanvasData.strokes[i].points;
+    var pen = DrawCanvasData.strokes[i].size;
 
     if (points.length === 1) {
       var point = points[0];
-      drawLineSegment(context, point.x, point.y, point.x, point.y, strokeSize);
+      drawLineSegment(context, point.x, point.y, point.x, point.y, pen);
       continue;
     }
 
@@ -89,7 +90,7 @@ function undoButton(canvas, context) {
       var prevY = point0.y;
       var currX = point1.x;
       var currY = point1.y;
-      drawLineSegment(context, prevX, prevY, currX, currY, strokeSize);
+      drawLineSegment(context, prevX, prevY, currX, currY, pen);
     }
   }
 }
@@ -312,7 +313,7 @@ function collectPoint(x, y) {
 }
 
 function collectStroke() {
-  var stroke = {points: DrawCanvasData.points};
+  var stroke = {points: DrawCanvasData.points, size: strokeSize};
   DrawCanvasData.strokes.push(stroke);
   DrawCanvasData.points = [];
 }
