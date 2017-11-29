@@ -19,21 +19,13 @@
 </head>
 <body onload="init()">
   <div id="content" >
-    <!-- empty div -->
-    <div></div>
-    <div id="backg" style="background-image: url(views/image/<%= image %>); background-repeat: no-repeat;
-    background-size: 100% 100%;">
-      <!-- <img src="views/image/<%= image %>" height="600" width="900"> -->
-      <!-- <canvas id="drawCanvas" class="canvaslook" width="379" height="408" ></canvas> -->
-      <canvas id="drawCanvas" class="canvaslook" width="290" height="408" ></canvas>
 
+    <div id="backg" style="background-image: url(views/image/<%= image %>); background-repeat: no-repeat;
+    background-size: 1264px 600px;">
+      <!-- <img src="views/image/<%= image %>" height="600" width="900"> -->
+      <canvas id="drawCanvas" class="canvaslook" width="632" height="600" ></canvas>
     </div>
-    <!-- empty div -->
-    <div></div>
-    <!-- empty div -->
-    <div>
-      <!-- <canvas id="previewCanvas" class="canvaslook" width="311" height="404"></canvas> -->
-    </div>
+
     <div>
       <button type="button" class="btn btn-default btn-sm" onclick="clearButton(drawCanvas, drawContext);">
           <span class="glyphicon glyphicon-trash"></span> Clear 
