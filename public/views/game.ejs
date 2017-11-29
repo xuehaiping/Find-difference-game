@@ -5,7 +5,7 @@
 <!-- jQuery JS (required for Bootstrap)-->
 <script src="views/js/jquery-3.2.1.min.js"></script>
 <!-- Bootstrap CSS -->
-<!-- <link href="views/bootstrap/css/bootstrap.min.css" rel="stylesheet"> -->
+<link href="views/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" href="views/sketchpad/css/style.css">
 <!-- Bootstrap JS -->
 <script src="views/bootstrap/js/bootstrap.min.js"></script>
@@ -24,7 +24,8 @@
     <div id="backg" style="background-image: url(views/image/<%= image %>); background-repeat: no-repeat;
     background-size: 100% 100%;">
       <!-- <img src="views/image/<%= image %>" height="600" width="900"> -->
-      <canvas id="drawCanvas" class="canvaslook" width="379" height="408" ></canvas>
+      <!-- <canvas id="drawCanvas" class="canvaslook" width="379" height="408" ></canvas> -->
+      <canvas id="drawCanvas" class="canvaslook" width="290" height="408" ></canvas>
 
     </div>
     <!-- empty div -->
@@ -34,9 +35,15 @@
       <!-- <canvas id="previewCanvas" class="canvaslook" width="311" height="404"></canvas> -->
     </div>
     <div>
-      <input type="submit" value="Clear" class="elementlook" onclick="clearButton(drawCanvas, drawContext);">
-      <input type="submit" value="Undo" class="elementlook" onclick="undoButton(drawCanvas, drawContext);">
-      <input type="submit" value="Test" class="elementlook" onclick="testButton();">
+      <button type="button" class="btn btn-default btn-sm" onclick="clearButton(drawCanvas, drawContext);">
+          <span class="glyphicon glyphicon-trash"></span> Clear 
+        </button>
+      <button type="button" class="btn btn-default btn-sm" onclick="undoButton(drawCanvas, drawContext);">
+          <span class="glyphicon glyphicon-arrow-left"></span> Undo
+        </button>
+      <button type="button" class="btn btn-default btn-sm" onclick="testButton();">
+          <span class="glyphicon glyphicon-upload"></span> Submit
+      </button>
       <!-- <select id="algorithm" class="elementlook" onChange="instruct()">
         <option value="-----"             >--------------------</option>
         <option value="boundingBox"       >Bounding Box</option>
