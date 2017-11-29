@@ -23,39 +23,64 @@
     <div id="backg" style="background-image: url(views/image/<%= image %>); background-repeat: no-repeat;
     background-size: 1264px 600px;">
       <!-- <img src="views/image/<%= image %>" height="600" width="900"> -->
-      <canvas id="drawCanvas" class="canvaslook" width="632" height="600" ></canvas>
+      <canvas id="drawCanvas" class="canvaslook" width="632" height="580" ></canvas>
     </div>
 
-    <div>
-      <button type="button" class="btn btn-default btn-sm" onclick="clearButton(drawCanvas, drawContext);">
-          <span class="glyphicon glyphicon-trash"></span> Clear 
+    <form>
+      <div class="form-group">
+        <button type="button" class="btn btn-default btn-sm" onclick="clearButton(drawCanvas, drawContext);">
+            <span class="glyphicon glyphicon-trash"></span> Clear 
         </button>
-      <button type="button" class="btn btn-default btn-sm" onclick="undoButton(drawCanvas, drawContext);">
-          <span class="glyphicon glyphicon-arrow-left"></span> Undo
+        <div class="btn-group">
+          <button type="button" class="btn btn-default btn-sm" data-toggle="dropdown">
+          <span class="glyphicon glyphicon-pencil"></span> Stroke Size <span class="caret"></span></button>
+          <ul class="dropdown-menu" role="menu">
+          <p id="penSize"></p>
+          <li><a href="#" onclick="test(3);">1</a></li>
+          <li><a href="#" onclick="test(5);">2</a></li>
+          <li><a href="#" onclick="test(7);">3</a></li>
+          </ul>
+        </div>
+        <button type="button" class="btn btn-default btn-sm" onclick="undoButton(drawCanvas, drawContext);">
+            <span class="glyphicon glyphicon-arrow-left"></span> Undo
         </button>
-      <button type="button" class="btn btn-default btn-sm" onclick="testButton();">
-          <span class="glyphicon glyphicon-upload"></span> Submit
-      </button>
-      <!-- <select id="algorithm" class="elementlook" onChange="instruct()">
-        <option value="-----"             >--------------------</option>
-        <option value="boundingBox"       >Bounding Box</option>
-        <option value="boundingBoxes"     >Bounding Boxes</option>
-        <option value="centerCentroid"    >Center (Centroid)</option>
-        <option value="centerMidpoint"    >Center (Midpoint)</option>
-        <option value="shortStraw"        >Corner-Finding (ShortStraw)</option>
-        <option value="iStraw"            >Corner-Finding (IStraw)</option>
-        <option value="endpoints"         >Endpoints</option>
-        <option value="resampleByCount"   >Resample (Count)</option>
-        <option value="resampleByDistance">Resample (Distance)</option>
-        <option value="scaleProportion"   >Scale (Proportional)</option>
-        <option value="scaleSquare"       >Scale (Square)</option>
-        <option value="translate"         >Translate</option>
-      </select>
-      <input type="text" id="argument" class="elementlook" name="argument" maxlength="6" size="6"> -->
-    </div>
+        <button type="button" class="btn btn-default btn-sm" onclick="testButton();">
+            <span class="glyphicon glyphicon-upload"></span> Submit
+        </button>
+        <!-- <select id="algorithm" class="elementlook" onChange="instruct()">
+          <option value="-----"             >--------------------</option>
+          <option value="boundingBox"       >Bounding Box</option>
+          <option value="boundingBoxes"     >Bounding Boxes</option>
+          <option value="centerCentroid"    >Center (Centroid)</option>
+          <option value="centerMidpoint"    >Center (Midpoint)</option>
+          <option value="shortStraw"        >Corner-Finding (ShortStraw)</option>
+          <option value="iStraw"            >Corner-Finding (IStraw)</option>
+          <option value="endpoints"         >Endpoints</option>
+          <option value="resampleByCount"   >Resample (Count)</option>
+          <option value="resampleByDistance">Resample (Distance)</option>
+          <option value="scaleProportion"   >Scale (Proportional)</option>
+          <option value="scaleSquare"       >Scale (Square)</option>
+          <option value="translate"         >Translate</option>
+        </select>
+        <input type="text" id="argument" class="elementlook" name="argument" maxlength="6" size="6"> -->
+      </div>
+      <div class="form-group">
+        <button type="button" class="btn btn-default btn-sm" data-toggle="collapse" data-target="#demo"><span class="glyphicon glyphicon-question-sign"></span>Help</button>
+        <div id="demo" class="collapse">
+    Left image is the original image. Right image is for finding differences. You can circle redundant parts and draw missing parts on the right image.
+        </div>
+        <button type="button" class="btn btn-default btn-sm">
+          <span class="glyphicon glyphicon-home"></span> Home
+        </button>
+      </div>
+    </form>
   </div>
 
   <script>
+
+  function test(size) {
+    console.log(size);
+  }
 
   function testButton() {
 

@@ -32,7 +32,7 @@ function init() {
     width = this.drawCanvas.width;
 		height = this.drawCanvas.height;
 
-    console.log(width+" + "+height);
+    // console.log(width+" + "+height);
     // Check that we have a valid context to draw on/with before adding event handlers
     if (drawContext) {
         // React to mouse events on the canvas, and mouseup on the entire document
