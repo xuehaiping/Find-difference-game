@@ -38,7 +38,7 @@ body {
     width:inherit;
     border:2px solid #fff;
     border-radius:4px;
-    position:absolute; /* Necessary for correct mouse co-ords in Firefox */
+    position:fixed; /* Necessary for correct mouse co-ords in Firefox */
 }
 .elementlook {
     font-size: 15px;
