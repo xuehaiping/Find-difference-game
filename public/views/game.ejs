@@ -34,11 +34,11 @@
         <div class="btn-group">
           <button type="button" class="btn btn-default btn-sm" data-toggle="dropdown">
           <span class="glyphicon glyphicon-pencil"></span> Stroke Size <span class="caret"></span></button>
-          <ul class="dropdown-menu" role="menu">
-          <p id="penSize"></p>
-          <li><a href="#" onclick="test(3);">1</a></li>
-          <li><a href="#" onclick="test(5);">2</a></li>
-          <li><a href="#" onclick="test(7);">3</a></li>
+          <ul id="pensize" class="dropdown-menu" role="menu">
+            <li><a href="#">1</a></li>
+            <li><a href="#">3</a></li>
+            <li><a href="#">5</a></li>
+            <li><a href="#">7</a></li>
           </ul>
         </div>
         <button type="button" class="btn btn-default btn-sm" onclick="undoButton(drawCanvas, drawContext);">
@@ -75,6 +75,18 @@
       </div>
     </form>
   </div>
+
+  <!-- <script>
+    // $(document).ready(function(){
+      // $(".dropdown").on("show.bs.dropdown", function(event){
+        // var x = $(event.relatedTarget).text(); // Get the button text
+      // });
+    // });
+
+    $('#pensize li a').on('click', function(event){
+      console.log($('#content').val($(event.relatedTarget).text()));
+    });
+  </script> -->
 
   <script>
 

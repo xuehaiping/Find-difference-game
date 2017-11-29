@@ -32,6 +32,11 @@ function init() {
     width = this.drawCanvas.width;
 		height = this.drawCanvas.height;
 
+
+    $('#pensize li').on('click', function(){
+      strokeSize = $(this).text();
+    });
+
     // console.log(width+" + "+height);
     // Check that we have a valid context to draw on/with before adding event handlers
     if (drawContext) {
@@ -46,7 +51,6 @@ function init() {
         drawCanvas.addEventListener('touchmove', drawCanvas_touchMove, false);
     }
 }
-
 
 
 // ###############################
@@ -356,7 +360,7 @@ var lastX = -1;
 var lastY = -1;
 
 // Size of the stroke
-var strokeSize = 3;
+var strokeSize;
 var strokeColor = "black";
 
 var DrawCanvasData = {
