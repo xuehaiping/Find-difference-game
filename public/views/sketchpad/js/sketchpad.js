@@ -32,6 +32,7 @@ function init() {
     width = this.drawCanvas.width;
 		height = this.drawCanvas.height;
     strokeSize = 3;
+    strokeColor = "black";
 
     $('#pensize li').on('click', function(){
       strokeSize = $(this).text();
@@ -76,10 +77,11 @@ function undoButton(canvas, context) {
   for (var i = 0; i < DrawCanvasData.strokes.length; i++) {
     var points = DrawCanvasData.strokes[i].points;
     var pen = DrawCanvasData.strokes[i].size;
+    var clr = DrawCanvasData.strokes[i].color;
 
     if (points.length === 1) {
       var point = points[0];
-      drawLineSegment(context, point.x, point.y, point.x, point.y, pen);
+      drawLineSegment(context, point.x, point.y, point.x, point.y, clr, pen);
       continue;
     }
 
@@ -90,9 +92,17 @@ function undoButton(canvas, context) {
       var prevY = point0.y;
       var currX = point1.x;
       var currY = point1.y;
-      drawLineSegment(context, prevX, prevY, currX, currY, pen);
+      drawLineSegment(context, prevX, prevY, currX, currY, clr, pen);
     }
   }
+}
+
+function colorRed() {
+  strokeColor = "red";
+}
+
+function colorBlack() {
+  strokeColor = "black";
 }
 
 function showPreview() {
@@ -313,7 +323,7 @@ function collectPoint(x, y) {
 }
 
 function collectStroke() {
-  var stroke = {points: DrawCanvasData.points, size: strokeSize};
+  var stroke = {points: DrawCanvasData.points, size: strokeSize, color: strokeColor};
   DrawCanvasData.strokes.push(stroke);
   DrawCanvasData.points = [];
 }
@@ -362,7 +372,7 @@ var lastY = -1;
 
 // Size of the stroke
 var strokeSize;
-var strokeColor = "black";
+var strokeColor;
 
 var DrawCanvasData = {
   points: [],

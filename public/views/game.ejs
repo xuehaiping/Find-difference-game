@@ -27,7 +27,7 @@
     </div>
 
       <div class="form-group">
-        <button type="button" class="btn btn-default btn-sm" onclick="clearButton(drawCanvas, drawContext);">
+        <button type="button" class="btn btn-default btn-sm" onclick="clearButton(drawCanvas, drawContext);" data-toggle="tooltip" title="remove all the strokes and restart">
             <span class="glyphicon glyphicon-trash"></span> Clear
         </button>
         <div class="btn-group">
@@ -40,10 +40,16 @@
             <li><a href="#">7</a></li>
           </ul>
         </div>
-        <button type="button" class="btn btn-default btn-sm" onclick="undoButton(drawCanvas, drawContext);">
+        <button type="button" class="btn btn-default btn-sm" onclick="colorRed();" style="color:#FF0000;" data-toggle="tooltip" title="use red to mark redundant parts">
+            <span class="glyphicon glyphicon-stop"></span>
+        </button>
+        <button type="button" class="btn btn-default btn-sm" onclick="colorBlack();" style="color:#000000;" data-toggle="tooltip" title="use black to draw missing parts">
+            <span class="glyphicon glyphicon-stop"></span>
+        </button>
+        <button type="button" class="btn btn-default btn-sm" onclick="undoButton(drawCanvas, drawContext);" data-toggle="tooltip" title="remove last stroke">
             <span class="glyphicon glyphicon-arrow-left"></span> Undo
         </button>
-        <button type="button" class="btn btn-default btn-sm" onclick="testButton();">
+        <button type="button" class="btn btn-default btn-sm" onclick="testButton();" data-toggle="tooltip" title="evaluate results">
             <span class="glyphicon glyphicon-upload"></span> Submit
         </button>
 
