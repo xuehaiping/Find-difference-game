@@ -49,15 +49,56 @@
         <button type="button" class="btn btn-default btn-sm" onclick="undoButton(drawCanvas, drawContext);" data-toggle="tooltip" title="remove last stroke">
             <span class="glyphicon glyphicon-arrow-left"></span> Undo
         </button>
-        <button type="button" class="btn btn-default btn-sm" onclick="testButton();" data-toggle="tooltip" title="evaluate results">
+        <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#feedback">
             <span class="glyphicon glyphicon-upload"></span> Submit
         </button>
 
+        <!-- Feedback modal -->
+        <div class="modal fade" id="feedback" tabindex="-1" role="dialog" aria-labelledby="feedbackTitle" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+              <h3 class="modal-title" id="exampleModalLabel" style="display: inline;">Feedback</h3>
+            </div>
+              <div class="modal-body">
+                <img src="views/image/Contitle.jpg" style="width:100%;height:20%;"> </img>
+                <img src="views/image/congrats.gif"></img>
+                <ul class="list-group" style="padding-top: 30px;">
+                  <li class="list-group-item text-center"><b>Your Score</b></li>
+                  <li class="list-group-item text-center">100</li>
+                </ul>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" style="display: inline;">Go back</button>
+                <form action = "/" method = "get" style="display: inline;">
+                  <button type="submit" class="btn btn-primary">Play again game</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div class="form-group">
-          <button type="button" class="btn btn-default btn-sm" data-toggle="popover" data-toggle="popover" data-trigger="focus" title="Help"
+          <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#helper" title="Help"
           data-content=" Left image is the original image. Right image is for finding differences. You can circle redundant parts and draw missing parts on the right image.">
             <span class="glyphicon glyphicon-question-sign"></span>Help
           </button>
+
+          <!-- healper Modal -->
+          <div class="modal fade bd-example-modal" id="helper" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+              <div class="modal-content">
+                <div class="modal-header">
+                <h4 class="modal-title" id="exampleModalLabel" style="float:left;">Healper</h4>
+              </div>
+                <img src="views/image/help.png "class="img-responsive"> </img>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-primary" data-dismiss="modal" style="display: inline;">Back to Game</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
           <form action="/" method="get" style="display: inline-block;">
           <button type="submit" class="btn btn-default btn-sm">
             <span class="glyphicon glyphicon-home"></span>Home
