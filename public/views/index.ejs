@@ -55,7 +55,22 @@
     $('#data button').click( function () {
       document.getElementById('imageId').value = imageList[$('.carousel').find('.item.active').index()];
      });
+
+     $('#scrolltop').click(function(){
+       var body = $("html, body");
+       body.stop().animate({scrollTop:0}, 500, 'swing', function() {
+       });
+     });
+
+     $("#toHeader").click(function() {
+    $('html, body').animate({
+        scrollTop: $("#header").offset().top
+    }, 400);
+});
   });
+
+
+
   </script>
 </head>
 
@@ -78,7 +93,7 @@
         <p class="tagline">
           This is a Find Difference Game empowered with Sketch Recognition Technology.
         </p>
-        <a class="btn btn-full" href="#header">Get Started Now</a>
+        <a id="toHeader" class="btn btn-full" href="#header">Get Started Now</a>
       </div>
     </div>
 
@@ -152,7 +167,8 @@
         <span class="glyphicon glyphicon-play-circle"></span>Start now!
       </button>
     </div>
-    </div>
+
+
 
 
 
@@ -178,7 +194,7 @@
     </div>
   </section>
 
-  <a class="scrolltop" href="#"><span class="fa fa-angle-up"></span></a>
+  <a href="#" id="scrolltop"><span style="font-size: 250%; float:right;" class="glyphicon">&#xe133;</span></a>
 
   <!-- Required JavaScript Libraries -->
   <script src="views/indexLib/lib/jquery/jquery.min.js"></script>
