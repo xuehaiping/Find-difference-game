@@ -23,7 +23,7 @@
     <div id="backg" style="background-image: url(views/image/<%= image %>); background-repeat: no-repeat;
     background-size: 1264px 600px;">
       <!-- <img src="views/image/<%= image %>" height="600" width="900"> -->
-      <canvas id="drawCanvas" class="canvaslook" width="632" height="580" ></canvas>
+      <canvas id="drawCanvas" class="canvaslook" width="630" height="598" ></canvas>
     </div>
 
       <div class="form-group">
@@ -48,6 +48,9 @@
         </button>
         <button type="button" class="btn btn-default btn-sm" onclick="undoButton(drawCanvas, drawContext);" data-toggle="tooltip" title="remove last stroke">
             <span class="glyphicon glyphicon-arrow-left"></span> Undo
+        </button>
+        <button type="submit" class="btn btn-default btn-sm" onclick="testButton();" data-toggle="tooltip" title="remove last stroke">
+          <span class="glyphicon glyphicon-upload"></span> Template
         </button>
         <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#feedback">
             <span class="glyphicon glyphicon-upload"></span> Submit
@@ -113,6 +116,10 @@
   function testButton() {
     // showPreview();
     var sketch = getSketch();
+    var fullPath = "<%= image %>";
+    console.log(sketch);
+    var fileName = fullPath.replace(/\.[^.]+$/, '');
+    downloadObjectAsJson(sketch,fileName);
   }
 
   $(function () {

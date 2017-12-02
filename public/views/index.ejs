@@ -47,10 +47,10 @@
   $(document).ready(function() {
     var imageList = ["heart.jpg", "show.jpg", "bear.jpg"];
     $('#myCarousel ol').append('<li data-target="#myCarousel" data-slide-to="0" class="active"></li>');
-    $('#wrapper').append('<div class="item active"><img src="views/image/'+imageList[0]+'" height="900" width="900"></div>');
+    $('#wrapper').append('<div class="item active"><img src="views/image/'+imageList[0]+'" ></div>');
     for(var i=1; i<imageList.length; i++) {
       $('#myCarousel ol').append('<li data-target="#myCarousel" data-slide-to="' + i.toString() + '"></li>');
-      $('#wrapper').append('<div class="item"><img src="views/image/'+imageList[i]+'" height="900" width="900"></div>');
+      $('#wrapper').append('<div class="item"><img src="views/image/'+imageList[i]+'" ></div>');
     }
     $('#data button').click( function () {
       document.getElementById('imageId').value = imageList[$('.carousel').find('.item.active').index()];
