@@ -2,6 +2,7 @@
 <head>
 <title>Sketchpad</title>
 <script src="views/js/utili.js"></script>
+<script src="views/js/templatematch.js"></script>
 <!-- jQuery JS (required for Bootstrap)-->
 <script src="views/js/jquery-3.2.1.min.js"></script>
 <!-- Bootstrap CSS -->
@@ -21,9 +22,9 @@
   <div id="content" >
 
     <div id="backg" style="background-image: url(views/image/<%= image %>); background-repeat: no-repeat;
-    background-size: 1264px 600px;">
+    background-size: 1259px;">
       <!-- <img src="views/image/<%= image %>" height="600" width="900"> -->
-      <canvas id="drawCanvas" class="canvaslook" width="630" height="598" ></canvas>
+      <canvas id="drawCanvas" class="canvaslook" width="630" height="497" ></canvas>
     </div>
 
       <div class="form-group">
@@ -116,10 +117,14 @@
   function testButton() {
     // showPreview();
     var sketch = getSketch();
-    var fullPath = "<%= image %>";
-    console.log(sketch);
-    var fileName = fullPath.replace(/\.[^.]+$/, '');
-    downloadObjectAsJson(sketch,fileName);
+	  var resampledSketch = SketchRecTools.resampleByDistance(sketch);
+    //var fullPath = "<%= image %>";
+    console.log(resampledSketch);
+    //var fileName = fullPath.replace(/\.[^.]+$/, '');
+    //downloadObjectAsJson(sketch,fileName);
+	  var TemplateNum=1
+	  var Dist=TemplateMatch(resampledSketch,TemplateNum);
+	  console.log(Dist);
   }
 
   $(function () {
