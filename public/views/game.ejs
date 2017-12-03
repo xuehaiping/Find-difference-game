@@ -22,7 +22,7 @@
   <div id="content" >
 
     <div id="backg" style="background-image: url(views/image/<%= image %>); background-repeat: no-repeat;
-    background-size: 1259px;">
+    background-size: 1259px;" data-image="views/image/<%= image %>">
       <!-- <img src="views/image/<%= image %>" height="600" width="900"> -->
       <canvas id="drawCanvas" class="canvaslook" width="630" height="497" ></canvas>
     </div>
@@ -73,7 +73,7 @@
                 </ul>
               </div>
               <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal" style="display: inline;">Go back</button>
+                <button type="button" class="btn btn-secondary" onclick="showTemplate();" data-dismiss="modal" style="display: inline;">See solution</button>
                 <form action = "/" method = "get" style="display: inline;">
                   <button type="submit" class="btn btn-primary">Play again game</button>
                 </form>

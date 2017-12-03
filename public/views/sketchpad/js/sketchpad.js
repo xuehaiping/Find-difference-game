@@ -105,6 +105,46 @@ function colorBlack() {
   strokeColor = "black";
 }
 
+function showTemplate() {
+  var path = document.getElementById('backg').attributes["data-image"].value;
+  clearButton(drawCanvas, drawContext);
+  var start = 0;
+  strokeColor = "green";
+  strokeSize = 3;
+  if(path.includes("heart")) {
+    start = 0;
+  }
+  else if(path.includes("show")) {
+    start = 4;
+  }
+  else if(path.includes("bear")) {
+    start = 8;
+  }
+  for(var i=start+1; i<=start+4; i++) {
+    var file = String.format('views/template/{0}.json',i);
+    var tempSketch = readJson(file);
+    var tempStrokes = tempSketch.strokes;
+    for(var j=0; j<tempStrokes.length; j++) {
+      var tempPoints = tempStrokes[j].points;
+      for(var k=0; k<tempPoints.length; k++) {
+        updateCanvas(drawContext, tempPoints[k].x, tempPoints[k].y, strokeColor, strokeSize);
+      }
+      drawCanvas_mouseUp();
+    }
+    
+  }
+}
+
+String.format = function(format) {
+  var args = Array.prototype.slice.call(arguments, 1);
+  return format.replace(/{(\d+)}/g, function(match, number) { 
+    return typeof args[number] != 'undefined'
+      ? args[number] 
+      : match
+    ;
+  });
+};
+
 function showPreview() {
 	// document.getElementById('previewCanvas').style.display = "inline";	// show preview in document
 	previewContext.clearRect(0, 0, width, height);		// clear the preview
@@ -150,7 +190,7 @@ function previewPoints(points, color) {
 
 // Draws a line between the specified position on the supplied canvas name
 // Parameters are: A canvas context, the x position, the y position, the size of the dot
-function updateCanvas(context, x, y) {
+function updateCanvas(context, x, y, strokeColor, strokeSize) {
 
   // If lastX is not set, set lastX and lastY to the current position
   if (lastX === -1) {
@@ -170,6 +210,8 @@ function clearCanvas(canvas, context) {
   //
   context.clearRect(0, 0, canvas.width, canvas.height);
 	// document.getElementById('previewCanvas').style.display = "none";
+  strokeSize = 3;
+  strokeColor = "black";
 }
 
 function drawLineSegment(context, x0, y0, x1, y1, color, size) {
@@ -206,7 +248,7 @@ function drawLineSegment(context, x0, y0, x1, y1, color, size) {
 // Keep track of the mouse button being pressed and draw a dot at current location
 function drawCanvas_mouseDown() {
   mouseDown = true;
-  updateCanvas(drawContext, mouseX, mouseY);
+  updateCanvas(drawContext, mouseX, mouseY, strokeColor, strokeSize);
   collectPoint(mouseX, mouseY);
 }
 
@@ -217,7 +259,7 @@ function drawCanvas_mouseMove(e) {
 
   // Draw a dot if the mouse button is currently being pressed
   if (mouseDown) {
-      updateCanvas(drawContext, mouseX, mouseY);
+      updateCanvas(drawContext, mouseX, mouseY, strokeColor, strokeSize);
       collectPoint(mouseX, mouseY);
   }
 }
@@ -260,7 +302,7 @@ function drawCanvas_touchStart() {
     // Update the touch co-ordinates
     getTouchPos();
 
-    updateCanvas(drawContext, touchX, touchY);
+    updateCanvas(drawContext, touchX, touchY, strokeColor, strokeSize);
     collectPoint(touchX, touchY);
 
     // Prevents an additional mousedown event being triggered
@@ -273,7 +315,7 @@ function drawCanvas_touchMove(e) {
     getTouchPos(e);
 
     // During a touchmove event, unlike a mousemove event, we don't need to check if the touch is engaged, since there will always be contact with the screen by definition.
-    updateCanvas(drawContext, touchX, touchY);
+    updateCanvas(drawContext, touchX, touchY, strokeColor, strokeSize);
     collectPoint(touchX, touchY);
 
     // Prevent a scrolling action as a result of this touchmove triggering.
