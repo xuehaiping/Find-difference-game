@@ -103,7 +103,7 @@ function FindStrokesInside(sketch){//return an array which contains leftmin,righ
     var tempcircle = Object.create(Circle);
     var index = circle[i];
     var tempbox = feature10(sketch, index);
-    var templabel = "2";
+    var templabel = "3";
 
     for(var k = 0; k < removeline.length; k++){
       var tempremoveindex = removeline[k];
