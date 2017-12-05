@@ -103,23 +103,18 @@ function FindStrokesInside(sketch){//return an array which contains leftmin,righ
     var tempcircle = Object.create(Circle);
     var index = circle[i];
     var tempbox = feature10(sketch, index);
-    //console.log(tempbox);
-    tempcircle.box = tempbox;
-    //tempcircle.lable = "0";
-    //console.log(tempcircle);
+    var templabel = "2";
 
     for(var k = 0; k < removeline.length; k++){
       var tempremoveindex = removeline[k];
       var tempremove = sketch.strokes[tempremoveindex];
       for(var j = 0; j < tempremove.points.length; j++){
         if(inside(tempremove.points[j], tempbox)){
-          tempcircle.label = "1";
+          templabel = "1";
           break;
         }
       }
     }
-    //console.log(tempcircle);
-    //if(tempcircle.lable == "1") continue;
 
     var ttemp = [];
     for(var k = 0; k < addnewstrokes.length; k++){
@@ -129,7 +124,7 @@ function FindStrokesInside(sketch){//return an array which contains leftmin,righ
       for(var j = 0; j < tempstrokes.points.length; j++){
         if(inside(tempstrokes.points[j], tempbox)) {
           ttemp.push(tempstrokes.points);
-          tempcircle.lable = "0";
+          templabel = "0";
           break;
         }
       }
@@ -138,22 +133,20 @@ function FindStrokesInside(sketch){//return an array which contains leftmin,righ
     for(var k = 0; k < ttemp.length; k++){
       tempcircle.strokes = ttemp;
     }
-    //console.log(tempcircle);
-
-    console.log(addnewdot);
     for(var k = 0; k < addnewdot.length; k++){
       var tempdotindex = addnewdot[k];
       var tempdot = sketch.strokes[tempdotindex];
       for(var j = 0; j < tempdot.points.length; j++){
         if(inside(tempdot.points[j],tempbox)) {
-          tempcircle.label = "2";
+          templabel = "2";
           break;
         }
       }
     }
+    var cc = {box:tempbox, strokes: ttemp, label: templabel};
 
     console.log(tempcircle);
-    Circles.push(tempcircle);
+    Circles.push(cc);
   }
 }
 
