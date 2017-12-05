@@ -80,7 +80,7 @@ function FindCircle(sketch){
       var f8 = feature8(sketch,i)//angle of diagonal
       var f9 = feature9(sketch,i);//length of stroke
       var f11 = feature11(sketch,i);//length of diagonal
-     if(f1< 10 && f9 > 30 && f11 > 15){
+      if(f1< 10 && f9 > 30 && f11 > 15){
         circle.push(i);
 
       }
@@ -151,9 +151,8 @@ function FindStrokesInside(sketch){//return an array which contains leftmin,righ
 }
 
 function inside(dot,box){
-  if(dot.x<box[0] || dot.x > box[2]) return false;
-  if(dot.y<box[1] || dot.y > box[3]) return false;
-  return true;
+  if((dot.x>box[0] && dot.x < box[2]) &&(dot.y > box[1] && dot.y < box[3]))  return true;
+  return false;
 }
 
 // ##################
@@ -311,7 +310,6 @@ function feature10(sketch,i){//find the bounding box
     return temp;
 }
 
-
 function feature11(sketch,i) {//length of diagonal
   var angle = 0;
   var xmin = sketch.strokes[i].points[0].x;
@@ -332,11 +330,10 @@ function feature11(sketch,i) {//length of diagonal
   return angle;
 }
 
-
 var Circle = {
   box:[],
   strokes:[],
-  label:[],//1:removelines 2:addnewdot 3:wrong
+  label:"",//1:removelines 2:addnewdot 3:wrong
 };
 
 var Circles = new Array();
