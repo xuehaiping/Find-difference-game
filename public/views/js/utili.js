@@ -80,14 +80,14 @@ function FindCircle(sketch){
       var f8 = feature8(sketch,i)//angle of diagonal
       var f9 = feature9(sketch,i);//length of stroke
       var f11 = feature11(sketch,i);//length of diagonal
-      if(f3 <= 0.3 && f1< 10 && f9 > 20){
+     if(f1< 10 && f9 > 30 && f11 > 15){
         circle.push(i);
 
       }
       else if(f4 <= 10 && f9 - f1 < 5){//removeline
         removeline.push(i);
       }
-      else if(f11 < 5){//addnewdot
+      else if(f11 < 10){//addnewdot
         addnewdot.push(i);
       }
     }
