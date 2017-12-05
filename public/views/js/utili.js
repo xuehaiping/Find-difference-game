@@ -79,15 +79,16 @@ function FindCircle(sketch){
       var f6 = feature6(sketch,i);//total pow rotation
       var f8 = feature8(sketch,i)//angle of diagonal
       var f9 = feature9(sketch,i);//length of stroke
-      if(f3 <= 1 && f1<20){
+      var f11 = feature11(sketch,i);//length of diagonal
+      if(f3 <= 0.3 && f1< 10 && f9 > 20){
         circle.push(i);
 
       }
-      else if(f4 > 50){//addnewdot
-        addnewdot.push(i);
-      }
-      else if(f3 <= 0.3 ){//removeline
+      else if(f4 <= 10 && f9 - f1 < 5){//removeline
         removeline.push(i);
+      }
+      else if(f1 < 5){//addnewdot
+        addnewdot.push(i);
       }
     }
     else if(color === "black"){
@@ -104,32 +105,25 @@ function FindStrokesInside(sketch){//return an array which contains leftmin,righ
     var tempbox = feature10(sketch, index);
     //console.log(tempbox);
     tempcircle.box = tempbox;
-    tempcircle.lable = "0";
-    console.log(tempcircle);
-
-
-    for(var k = 0; k < addnewdot.length; k++){
-      var tempdotindex = addnewdot[k];
-      var tempdot = sketch.strokes[tempdotindex];
-      for(var j = 0; j < tempdot.points.length; j++){
-        if(inside(tempdot.points[j],tempbox)) tempcircle.label = "2";
-      }
-    }
-    console.log(tempcircle);
+    //tempcircle.lable = "0";
+    //console.log(tempcircle);
 
     for(var k = 0; k < removeline.length; k++){
       var tempremoveindex = removeline[k];
       var tempremove = sketch.strokes[tempremoveindex];
       for(var j = 0; j < tempremove.points.length; j++){
-        if(inside(tempremove.points[j], tempbox)) tempcircle.label = "1";
+        if(inside(tempremove.points[j], tempbox)){
+          tempcircle.label = "1";
+          break;
+        }
       }
     }
-    console.log(tempcircle);
-    if(tempcircle.lable == "1") continue;
-    
+    //console.log(tempcircle);
+    //if(tempcircle.lable == "1") continue;
+
     var ttemp = [];
     for(var k = 0; k < addnewstrokes.length; k++){
-      console.log("1");
+      //console.log("1");
       var tempaddindex = addnewstrokes[k];
       var tempstrokes = sketch.strokes[tempaddindex];
       for(var j = 0; j < tempstrokes.points.length; j++){
@@ -144,6 +138,20 @@ function FindStrokesInside(sketch){//return an array which contains leftmin,righ
     for(var k = 0; k < ttemp.length; k++){
       tempcircle.strokes = ttemp;
     }
+    //console.log(tempcircle);
+
+    console.log(addnewdot);
+    for(var k = 0; k < addnewdot.length; k++){
+      var tempdotindex = addnewdot[k];
+      var tempdot = sketch.strokes[tempdotindex];
+      for(var j = 0; j < tempdot.points.length; j++){
+        if(inside(tempdot.points[j],tempbox)) {
+          tempcircle.label = "2";
+          break;
+        }
+      }
+    }
+
     console.log(tempcircle);
     Circles.push(tempcircle);
   }
@@ -309,6 +317,28 @@ function feature10(sketch,i){//find the bounding box
     temp.push(xmin,ymin,xmax,ymax);
     return temp;
 }
+
+
+function feature11(sketch,i) {//length of diagonal
+  var angle = 0;
+  var xmin = sketch.strokes[i].points[0].x;
+  var ymin = sketch.strokes[i].points[0].y;
+  var xmax = sketch.strokes[i].points[0].x;
+  var ymax = sketch.strokes[i].points[0].y;
+
+
+    for(var j = 1; j < sketch.strokes[i].points.length; j++){
+      var x = sketch.strokes[i].points[j].x;
+      var y = sketch.strokes[i].points[j].y;
+      xmin = Math.min(xmin, x);
+      ymin = Math.min(ymin, y);
+      xmax = Math.max(xmax, x);
+      ymax = Math.max(ymax, y);
+    }
+  angle = Math.sqrt((ymax-ymin)*(ymax-ymin)+(xmax-xmin)*(xmax-xmin));
+  return angle;
+}
+
 
 var Circle = {
   box:[],
