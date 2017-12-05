@@ -25,7 +25,7 @@ function TemplatePreprocess() {
 		// Read line by line
 	var TemplateOne = readJson(file);
 	//console.log(TemplateOne.strokes.length);
-	
+
 	TotalWeight=1259;
 	TotalHeight=497;
 	LeftBias=630;
@@ -52,6 +52,273 @@ function TemplatePreprocess() {
 			TemplateOne.strokes[strokeT].points[pointT].y=TemplateOne.strokes[strokeT].points[pointT].y*scale+Ymin;
 		}
 	}
-	console.log(TemplateOne);
+	//console.log(TemplateOne);
 	return TemplateOne;
 }
+
+
+
+function GetCircleData(resampledSketch){
+  FindCircle(resampledSketch);
+  FindStrokesInside(resampledSketch);
+  console.log(Circles);
+  return Circles;
+}
+
+
+function FindCircle(sketch){
+  for(var i = 0; i < sketch.strokes.length; i++){
+    var color = sketch.strokes[i].color;
+    if(color === "red"){
+      feature1(sketch,0);
+      var f1 = feature1(sketch,i);//the distance of the start and end
+      var f2 = feature2(sketch,i);//cos of start and end
+      var f3 = feature3(sketch,i);//sin of start and end
+      var f4 = feature4(sketch,i);//total rotation
+      var f5 = feature5(sketch,i);//total abs rotation
+      var f6 = feature6(sketch,i);//total pow rotation
+      var f8 = feature8(sketch,i)//angle of diagonal
+      var f9 = feature9(sketch,i);//length of stroke
+      if(f3 <= 1 && f1<20){
+        circle.push(i);
+
+      }
+      else if(f4 > 50){//addnewdot
+        addnewdot.push(i);
+      }
+      else if(f3 <= 0.3 ){//removeline
+        removeline.push(i);
+      }
+    }
+    else if(color === "black"){
+      addnewstrokes.push(i);
+    }
+  }
+}
+
+function FindStrokesInside(sketch){//return an array which contains leftmin,rightmax, downmin and upmax
+  var sketch = getSketch();
+  for(var i = 0; i < circle.length; i++){
+    var tempcircle = Object.create(Circle);
+    var index = circle[i];
+    var tempbox = feature10(sketch, index);
+    //console.log(tempbox);
+    tempcircle.box = tempbox;
+    tempcircle.lable = "0";
+    console.log(tempcircle);
+
+
+    for(var k = 0; k < addnewdot.length; k++){
+      var tempdotindex = addnewdot[k];
+      var tempdot = sketch.strokes[tempdotindex];
+      for(var j = 0; j < tempdot.points.length; j++){
+        if(inside(tempdot.points[j],tempbox)) tempcircle.label = "2";
+      }
+    }
+    console.log(tempcircle);
+
+    for(var k = 0; k < removeline.length; k++){
+      var tempremoveindex = removeline[k];
+      var tempremove = sketch.strokes[tempremoveindex];
+      for(var j = 0; j < tempremove.points.length; j++){
+        if(inside(tempremove.points[j], tempbox)) tempcircle.label = "1";
+      }
+    }
+    console.log(tempcircle);
+    if(tempcircle.lable == "1") continue;
+    
+    var ttemp = [];
+    for(var k = 0; k < addnewstrokes.length; k++){
+      console.log("1");
+      var tempaddindex = addnewstrokes[k];
+      var tempstrokes = sketch.strokes[tempaddindex];
+      for(var j = 0; j < tempstrokes.points.length; j++){
+        if(inside(tempstrokes.points[j], tempbox)) {
+          ttemp.push(tempstrokes.points);
+          tempcircle.lable = "0";
+          break;
+        }
+      }
+    }
+
+    for(var k = 0; k < ttemp.length; k++){
+      tempcircle.strokes = ttemp;
+    }
+    console.log(tempcircle);
+    Circles.push(tempcircle);
+  }
+}
+
+function inside(dot,box){
+  if(dot.x<box[0] || dot.x > box[2]) return false;
+  if(dot.y<box[1] || dot.y > box[3]) return false;
+  return true;
+}
+
+// ##################
+// ##### Features #####
+// ##################
+function feature1(sketch,i) {//the distance of the start and end
+  var dis = 0;
+  var s = sketch.strokes[i].points[0];
+  var w = sketch.strokes[i].points[sketch.strokes[i].points.length - 1];
+  var x0 = sketch.strokes[i].points[0].x;
+  var y0 = sketch.strokes[i].points[0].y;
+  var xn = sketch.strokes[i].points[sketch.strokes[i].points.length - 1].x;
+  var yn = sketch.strokes[i].points[sketch.strokes[i].points.length - 1].y;
+  dis =  Math.sqrt(Math.pow((yn-y0),2)+Math.pow((xn-x0),2))
+  return dis;
+}
+
+function feature2(sketch,i) {//cos of start and end
+  var cos = 0;
+  var s = sketch.strokes[i].points[0];
+  var w = sketch.strokes[i].points[sketch.strokes[i].points.length - 1];
+  var x0 = sketch.strokes[i].points[0].x;
+  var y0 = sketch.strokes[i].points[0].y;
+  var xn = sketch.strokes[i].points[sketch.strokes[i].points.length - 1].x;
+  var yn = sketch.strokes[i].points[sketch.strokes[i].points.length - 1].y;
+  cos =  (xn - x0) / (Math.sqrt(Math.pow((yn-y0),2)+Math.pow((xn-x0),2))+0.0000001);
+  return cos;
+}
+
+function feature3(sketch,i) {//sin of start and end
+  var sin = 0;
+  var s = sketch.strokes[i].points[0];
+  var w = sketch.strokes[i].points[sketch.strokes[i].points.length - 1];
+  var x0 = sketch.strokes[i].points[0].x;
+  var y0 = sketch.strokes[i].points[0].y;
+  var xn = sketch.strokes[i].points[sketch.strokes[i].points.length - 1].x;
+  var yn = sketch.strokes[i].points[sketch.strokes[i].points.length - 1].y;
+  sin =  (yn - y0) / (Math.sqrt(Math.pow((yn-y0),2)+Math.pow((xn-x0),2))+0.0000001);
+  return sin;
+}
+
+function feature4(sketch,i) {//total rotation
+  var theta = 0;
+  for(var j = 2; j < sketch.strokes[i].points.length; j++){
+    var s = sketch.strokes[i].points[j];
+    var w = sketch.strokes[i].points[j - 1];
+    var sw = sketch.strokes[i].points[j - 2];
+    var xj = sketch.strokes[i].points[j].x;
+    var yj = sketch.strokes[i].points[j].y;
+    var xjminus1 = sketch.strokes[i].points[j - 1].x;
+    var yjminus1 = sketch.strokes[i].points[j - 1].y;
+    var xjminus2 = sketch.strokes[i].points[j - 2].x;
+    var yjminus2 = sketch.strokes[i].points[j - 2].y;
+    var delxj = xj - xjminus1;
+    var delyj = yj - yjminus1;
+    var delxjminus1 = xjminus1 - xjminus2;
+    var delyjminus1 = yjminus1 - yjminus2;
+    theta = theta + Math.atan((delxj * delxjminus1 - delyj * delyjminus1)/(delxj * delxjminus1 + delyj * delyjminus1 + 0.001));
+  }
+  return theta;
+}
+
+function feature5(sketch,i) {//total abs rotation
+  var theta = 0;
+  for(var j = 2; j < sketch.strokes[i].points.length; j++){
+    var s = sketch.strokes[i].points[j];
+    var w = sketch.strokes[i].points[j - 1];
+    var sw = sketch.strokes[i].points[j - 2];
+    var xj = sketch.strokes[i].points[j].x;
+    var yj = sketch.strokes[i].points[j].y;
+    var xjminus1 = sketch.strokes[i].points[j - 1].x;
+    var yjminus1 = sketch.strokes[i].points[j - 1].y;
+    var xjminus2 = sketch.strokes[i].points[j - 2].x;
+    var yjminus2 = sketch.strokes[i].points[j - 2].y;
+    var delxj = xj - xjminus1;
+    var delyj = yj - yjminus1;
+    var delxjminus1 = xjminus1 - xjminus2;
+    var delyjminus1 = yjminus1 - yjminus2;
+    theta = theta + Math.abs(Math.atan((delxj * delxjminus1 - delyj * delyjminus1)/(delxj * delxjminus1 + delyj * delyjminus1 + 0.001)));
+  }
+  return theta;
+}
+
+function feature6(sketch,i) {//total pow rotation
+  var theta = 0;
+  for(var j = 2; j < sketch.strokes[i].points.length; j++){
+    var s = sketch.strokes[i].points[j];
+    var w = sketch.strokes[i].points[j - 1];
+    var sw = sketch.strokes[i].points[j - 2];
+    var xj = sketch.strokes[i].points[j].x;
+    var yj = sketch.strokes[i].points[j].y;
+    var xjminus1 = sketch.strokes[i].points[j - 1].x;
+    var yjminus1 = sketch.strokes[i].points[j - 1].y;
+    var xjminus2 = sketch.strokes[i].points[j - 2].x;
+    var yjminus2 = sketch.strokes[i].points[j - 2].y;
+    var delxj = xj - xjminus1;
+    var delyj = yj - yjminus1;
+    var delxjminus1 = xjminus1 - xjminus2;
+    var delyjminus1 = yjminus1 - yjminus2;
+    theta = theta + Math.pow(Math.atan((delxj * delxjminus1 - delyj * delyjminus1)/(delxj * delxjminus1 + delyj * delyjminus1 + 0.001)));
+  }
+  return theta;
+}
+
+function feature8(sketch,i) {//angle of diagonal
+  var angle = 0;
+  var xmin = sketch.strokes[i].points[0].x;
+  var ymin = sketch.strokes[i].points[0].y;
+  var xmax = sketch.strokes[i].points[0].x;
+  var ymax = sketch.strokes[i].points[0].y;
+
+
+    for(var j = 1; j < sketch.strokes[i].points.length; j++){
+      var x = sketch.strokes[i].points[j].x;
+      var y = sketch.strokes[i].points[j].y;
+      xmin = Math.min(xmin, x);
+      ymin = Math.min(ymin, y);
+      xmax = Math.max(xmax, x);
+      ymax = Math.max(ymax, y);
+    }
+  angle = Math.atan((ymax - ymin)/((xmax - xmin)+0.0001));
+  return angle;
+}
+
+function feature9(sketch,i) { //length of stroke
+  var length = 0;
+    for(var j = 1; j < sketch.strokes[i].points.length; j++){
+      var s = sketch.strokes[i].points[j];
+      var w = sketch.strokes[i].points[j - 1];
+      var xj = sketch.strokes[i].points[j].x;
+      var yj = sketch.strokes[i].points[j].y;
+      var xjminus1 = sketch.strokes[i].points[j - 1].x;
+      var yjminus1 = sketch.strokes[i].points[j - 1].y;
+      length = length + Math.sqrt(Math.pow((xj - xjminus1),2)+Math.pow((yj - yjminus1),2));
+    }
+  return length;
+}
+
+function feature10(sketch,i){//find the bounding box
+  var temp = [];
+  var xmin = sketch.strokes[i].points[0].x;
+  var ymin = sketch.strokes[i].points[0].y;
+  var xmax = sketch.strokes[i].points[0].x;
+  var ymax = sketch.strokes[i].points[0].y;
+
+    for(var j = 1; j < sketch.strokes[i].points.length; j++){
+      var x = sketch.strokes[i].points[j].x;
+      var y = sketch.strokes[i].points[j].y;
+      xmin = Math.min(xmin, x);
+      ymin = Math.min(ymin, y);
+      xmax = Math.max(xmax, x);
+      ymax = Math.max(ymax, y);
+    }
+    temp.push(xmin,ymin,xmax,ymax);
+    return temp;
+}
+
+var Circle = {
+  box:[],
+  strokes:[[1]],
+  label:[],//1:removelines 2:addnewdot 3:wrong
+};
+
+var Circles = new Array();
+
+var circle = new Array();
+var removeline = new Array();
+var addnewdot = new Array();
+var addnewstrokes = new Array();

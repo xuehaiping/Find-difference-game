@@ -117,14 +117,19 @@
   function testButton() {
     // showPreview();
     var sketch = getSketch();
+    //console.log(sketch);
 	  var resampledSketch = SketchRecTools.resampleByDistance(sketch);
+    //console.log(resampledSketch);
+
+    var StrokeSet=GetCircleData(sketch);
     //var fullPath = "<%= image %>";
-    console.log(resampledSketch);
+    //console.log(resampledSketch);
+    //console.log(StrokeSet);
     //var fileName = fullPath.replace(/\.[^.]+$/, '');
     //downloadObjectAsJson(sketch,fileName);
 	  var TemplateNum=1
 	  var Dist=TemplateMatch(resampledSketch,TemplateNum);
-	  console.log(Dist);
+	  //console.log(Dist);
   }
 
   $(function () {
