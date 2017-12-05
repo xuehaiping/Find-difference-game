@@ -312,7 +312,7 @@ function feature10(sketch,i){//find the bounding box
 
 var Circle = {
   box:[],
-  strokes:[[1]],
+  strokes:[],
   label:[],//1:removelines 2:addnewdot 3:wrong
 };
 
