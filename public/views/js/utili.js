@@ -87,7 +87,7 @@ function FindCircle(sketch){
       else if(f4 <= 10 && f9 - f1 < 5){//removeline
         removeline.push(i);
       }
-      else if(f1 < 5){//addnewdot
+      else if(f11 < 5){//addnewdot
         addnewdot.push(i);
       }
     }
