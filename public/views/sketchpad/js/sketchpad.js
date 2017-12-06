@@ -107,7 +107,6 @@ function colorBlack() {
 
 function showTemplate() {
   var path = document.getElementById('backg').attributes["data-image"].value;
-  clearButton(drawCanvas, drawContext);
   var start = 0;
   strokeColor = "green";
   strokeSize = 3;
