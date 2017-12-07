@@ -80,14 +80,14 @@ function FindCircle(sketch){
       var f8 = feature8(sketch,i)//angle of diagonal
       var f9 = feature9(sketch,i);//length of stroke
       var f11 = feature11(sketch,i);//length of diagonal
-      if(f1< 10 && f9 > 30 && f11 > 15){
+      if(f1< 20 && f9 > 30 && f11 > 15){
         circle.push(i);
 
       }
-      else if(f4 <= 10 && f9 - f1 < 5){//removeline
+      else if(Math.abs(f4) <= 2.57 && f11/f1 < 2 && f11>10){//removeline
         removeline.push(i);
       }
-      else if(f11 < 10){//addnewdot
+      else {//addnewdot
         addnewdot.push(i);
       }
     }
@@ -98,7 +98,7 @@ function FindCircle(sketch){
 }
 
 function FindStrokesInside(sketch){//return an array which contains leftmin,rightmax, downmin and upmax
-  var sketch = getSketch();
+  //var sketch = getSketch();
   for(var i = 0; i < circle.length; i++){
     var tempcircle = Object.create(Circle);
     var index = circle[i];
@@ -116,7 +116,7 @@ function FindStrokesInside(sketch){//return an array which contains leftmin,righ
       }
     }
 
-    var ttemp = [];
+    var ttemp = new Array();
     for(var k = 0; k < addnewstrokes.length; k++){
       //console.log("1");
       var tempaddindex = addnewstrokes[k];
@@ -124,7 +124,7 @@ function FindStrokesInside(sketch){//return an array which contains leftmin,righ
       for(var j = 0; j < tempstrokes.points.length; j++){
         if(inside(tempstrokes.points[j], tempbox)) {
           ttemp.push(tempstrokes.points);
-          templabel = "0";
+          templabel = "3";
           break;
         }
       }
