@@ -84,7 +84,7 @@ function FindCircle(sketch){
         circle.push(i);
 
       }
-      else if(Math.abs(f4) <= 2.57 && f11/f1 < 2 && f11>10){//removeline
+      else if(Math.abs(f4) <= 5.27 && f11/f1 < 2 && f11>10){//removeline
         removeline.push(i);
       }
       else {//addnewdot
@@ -105,15 +105,20 @@ function FindStrokesInside(sketch){//return an array which contains leftmin,righ
     var tempbox = feature10(sketch, index);
     var templabel = "3";
 
-    for(var k = 0; k < removeline.length; k++){
+   for(var k = 0; k < removeline.length; k++){
       var tempremoveindex = removeline[k];
       var tempremove = sketch.strokes[tempremoveindex];
-      for(var j = 0; j < tempremove.points.length; j++){
+	  var inone=0;
+      for(var j = 0; j < tempremove.points.length; j++){//remove
         if(inside(tempremove.points[j], tempbox)){
-          templabel = "1";
-          break;
+          inone = inone + 1;
         }
+        if(inone >= tempremove.points.length * 0.3) {
+			templabel = "1";
+			break;
+		}
       }
+      inone = 0;
     }
 
     var ttemp = new Array();
