@@ -99,9 +99,9 @@ function PositionMatch(StrokeSet,imageID){
 	var Y1max=[396, 154, 348,	65, 375, 375];
 
 	var X2min=[845-r, 1061-r, 924-r, 662-r,  1168-r, 728-r];
-	var Y2min=[166,  374,  40,  410,  389, 377];
-	var X2max=[860-r, 1091-r,	710-r, 962-r,1235-r, 794-r];
-	var Y2max=[182, 405 ,  73 , 467,  451,  440];
+	var Y2min=[166,   374,    40,    410,    389,    377];
+	var X2max=[860-r, 1091-r, 962-r, 710-r,  1235-r, 794-r];
+	var Y2max=[182,   405 ,   73 ,   467,    451,    440];
 
 	var X3min=[762-r,  935-r ,  1170-r, 759-r, 1167-r, 876-r];
 	var Y3min=[137,  302,	190,  242, 136,  320];
@@ -304,14 +304,14 @@ function ResultAcc(newStrokeSet){
 	var num=0;
 	console.log(newStrokeSet);
 	for (var i=0;i<newStrokeSet.length;i=i+1){
-		if (newStrokeSet[i].position!=-1){//only do accuracy matching for missing(2,3) and redraw(4,5)
+		if (newStrokeSet[i].position>1){//only do accuracy matching for missing(2,3) and redraw(4,5)
 			diagonal=Math.sqrt(Math.pow((newStrokeSet[i].box[2]-newStrokeSet[i].box[0]),2)+Math.pow((newStrokeSet[i].box[3]-newStrokeSet[i].box[1]),2))
 			console.log(diagonal);
 			if (diagonal>0||diagonal<1000){
 				//if (1-10*newStrokeSet[i].hausdorff/diagonal>0){
 				//	=acc+(1-10*newStrokeSet[i].hausdorff/diagonal);	
 				//}
-				acc=Math.pow(2,-10*newStrokeSet[i].hausdorff/diagonal);
+				acc=acc+Math.pow(1.3,-10*newStrokeSet[i].hausdorff/diagonal);
 				num=num+1;	
 			}				
 		}		
@@ -320,11 +320,14 @@ function ResultAcc(newStrokeSet){
 		acc=0;
 	}
 	else{
-		acc=acc/num;
+		if (num==0){
+			acc=acc;
+		}
+		else{
+			acc=acc/num
+		}
 	}
-		
-
-	return acc;	
+	return acc;		
 }
 
 function Evalutate(StrokeSet){
