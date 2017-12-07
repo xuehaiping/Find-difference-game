@@ -65,8 +65,8 @@
                 <img src="views/image/Contitle.jpg" style="width:100%;height:20%;"> </img>
                 <img src="views/image/congrats.gif"></img>
                 <ul class="list-group" style="padding-top: 30px;">
-                  <li class="list-group-item text-center"><b>Your Score</b></li>
-                  <li class="list-group-item text-center">100</li>
+                  <li class="list-group-item text-center">F1 Score: <p id="f1"></p></li>
+                  <li class="list-group-item text-center">Accuracy: <p id="accu"></p></li>
                 </ul>
               </div>
               <div class="modal-footer">
@@ -112,21 +112,14 @@
   <script>
 
   function testButton() {
-    // showPreview();
     var sketch = getSketch();
-    //console.log(sketch);
-	var resampledSketch = SketchRecTools.resampleByDistance(sketch);
+	  var resampledSketch = SketchRecTools.resampleByDistance(sketch);
     console.log(sketch);
 
     var StrokeSet=GetCircleData(resampledSketch);
-    //var fullPath = "<%= image %>";
-    //console.log(resampledSketch);
-    //console.log(StrokeSet);
-    //var fileName = fullPath.replace(/\.[^.]+$/, '');
-    //downloadObjectAsJson(sketch,fileName);
-	 var Score=Evalutate(StrokeSet);
-	 console.log(Score.F1);
-	 console.log(Score.Accuracy);
+	  var Score=Evalutate(StrokeSet);
+    document.getElementById('f1').innerHTML = Score.F1*100;
+    document.getElementById('accu').innerHTML = Score.Accuracy*100;
   }
 
   $(function () {
