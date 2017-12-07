@@ -1,4 +1,5 @@
 function TemplateMatch(sketch,TemplateNum) {
+
 	if (!String.format) {
 	  String.format = function(format) {
 		var args = Array.prototype.slice.call(arguments, 1);
@@ -12,6 +13,42 @@ function TemplateMatch(sketch,TemplateNum) {
 	}
 	var file = String.format('views/template/{0}.json',TemplateNum);
 	var Template = readJson(file);
+//found boundingbox for black sketch
+	var xmin = sketch.strokes[0][0].x;
+	var ymin = sketch.strokes[0][0].y;
+	var xmax = sketch.strokes[0][0].x;
+	var ymax = sketch.strokes[0][0].y;
+
+	for(var i = 0; i < sketch.strokes.length; i++){
+		for(var j = 0; j < sketch.strokes[i].length; j++){
+		  var x = sketch.strokes[i][j].x;
+		  var y = sketch.strokes[i][j].y;
+		  xmin = Math.min(xmin, x);
+		  ymin = Math.min(ymin, y);
+		  xmax = Math.max(xmax, x);
+		  ymax = Math.max(ymax, y);
+		}
+	}	
+//found boundingbox for Template
+	var txmin = Template.strokes[0].points[0].x;
+	var tymin = Template.strokes[0].points[0].y;
+	var txmax = Template.strokes[0].points[0].x;
+	var tymax = Template.strokes[0].points[0].y;
+
+	for (var i = 0; i < Template.strokes.length; i++){
+		for(var j = 0; j < Template.strokes[i].points.length; j++){
+		  var x = Template.strokes[i].points[j].x;
+		  var y = Template.strokes[i].points[j].y;
+		  txmin = Math.min(txmin, x);
+		  tymin = Math.min(tymin, y);
+		  txmax = Math.max(txmax, x);
+		  tymax = Math.max(tymax, y);
+		}
+	}
+	BiasX=txmin-xmin;
+	BiasY=tymin-ymin;
+
+		
 	//console.log(Template)
 	//Modified Hausdorff
 	//Compute Ci
@@ -21,8 +58,8 @@ function TemplateMatch(sketch,TemplateNum) {
 		for(var pointC = 0; pointC < sketch.strokes[strokeC].length; pointC++){
 			//console.log(sketch.strokes[strokeC].length);
 			distMin=100000;
-			Xc=sketch.strokes[strokeC][pointC].x;
-			Yc=sketch.strokes[strokeC][pointC].y;
+			Xc=BiasX+sketch.strokes[strokeC][pointC].x;
+			Yc=BiasY+sketch.strokes[strokeC][pointC].y;
 			Nc=Nc+1;
 			for (var strokeT = 0; strokeT < Template.strokes.length; strokeT++){
 				for(var pointT = 0; pointT < Template.strokes[strokeT].points.length; pointT++){
@@ -49,8 +86,8 @@ function TemplateMatch(sketch,TemplateNum) {
 			Nt=Nt+1;
 			for (var strokeC = 0; strokeC < sketch.strokes.length; strokeC++){
 				for (var pointC = 0; pointC < sketch.strokes[strokeC].length; pointC++){
-					Xc=sketch.strokes[strokeC][pointC].x;
-					Yc=sketch.strokes[strokeC][pointC].y;
+					Xc=BiasX+sketch.strokes[strokeC][pointC].x;
+					Yc=BiasY+sketch.strokes[strokeC][pointC].y;
 					dist=Math.sqrt(Math.pow(Xt-Xc,2)+Math.pow(Yt-Yc,2));
 					if (dist<distMin){
 						distMin=dist;
@@ -311,7 +348,9 @@ function ResultAcc(newStrokeSet){
 				//if (1-10*newStrokeSet[i].hausdorff/diagonal>0){
 				//	=acc+(1-10*newStrokeSet[i].hausdorff/diagonal);	
 				//}
-				acc=acc+Math.pow(1.3,-10*newStrokeSet[i].hausdorff/diagonal);
+				var e=Math.pow(400,newStrokeSet[i].hausdorff/10);
+				acc=acc+Math.sqrt(Math.pow(1.03,-e));
+				console.log(acc);
 				num=num+1;	
 			}				
 		}		
@@ -353,3 +392,4 @@ function Evalutate(StrokeSet){
 	  var result = {F1:PosResult,Accuracy:AccResult};
 	  return result;
 }
+
