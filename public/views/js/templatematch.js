@@ -366,8 +366,9 @@ function ResultAcc(newStrokeSet){
 			acc=acc/num;
 		}
 	}
-	acc=10*Math.sqrt(acc);
-	return acc;		
+	console.log(acc);
+	acc=Math.sqrt(acc);
+	return acc;			
 }
 
 function Evalutate(StrokeSet){
