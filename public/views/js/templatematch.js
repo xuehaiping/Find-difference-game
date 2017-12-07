@@ -342,7 +342,7 @@ function ResultAcc(newStrokeSet){
 	console.log(newStrokeSet);
 	for (var i=0;i<newStrokeSet.length;i=i+1){
 		if (newStrokeSet[i].position>1){//only do accuracy matching for missing(2,3) and redraw(4,5)
-			diagonal=Math.sqrt(Math.pow((newStrokeSet[i].box[2]-newStrokeSet[i].box[0]),2)+Math.pow((newStrokeSet[i].box[3]-newStrokeSet[i].box[1]),2))
+			diagonal=Math.sqrt(Math.pow((newStrokeSet[i].box[2]-newStrokeSet[i].box[0]),2)+Math.pow((newStrokeSet[i].box[3]-newStrokeSet[i].box[1]),2));
 			console.log(diagonal);
 			if (diagonal>0||diagonal<1000){
 				//if (1-10*newStrokeSet[i].hausdorff/diagonal>0){
@@ -363,9 +363,10 @@ function ResultAcc(newStrokeSet){
 			acc=acc;
 		}
 		else{
-			acc=acc/num
+			acc=acc/num;
 		}
 	}
+	acc=10*Math.sqrt(acc);
 	return acc;		
 }
 
